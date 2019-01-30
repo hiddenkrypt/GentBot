@@ -2,10 +2,11 @@ require("dotenv").config();
 
 console.log("NODE START");
 console.log(process.env.DISCORD_BOT_PREFIX);
+var token = process.env.DISCORD_BOT_TOKEN;
 
 const DiscordApp = require("discord.js");
 const client = new DiscordApp.Client();
-const commandCenter = require("./src/CommandCenter.js");
+const commandCenter = require("./src/CommandCenter.js")(client);
 
 
 client.on('ready', ()=>{
@@ -25,24 +26,29 @@ client.on('guildMemberAdd', member => {
 });*/
 client.on('messageReactionAdd', (reaction, user)=>{
   console.log(`user: ${user.tag} added reaction ${reaction.emoji}`);
-  console.log(`reaction identifier ${reaction.emoji.identifier}`);
 });
 
 client.on('message', (msg) => {
-  console.log("Message recieved!: " + msg.content);
-  if (msg.author == client.user) {
-    return; //ignore bot sent messages, to prevent loops
-  }
-  if (msg.channel.type === "dm"){
-    commandCenter.dm(msg);
-  } else if(msg.channel.type === "text"){
-    if (msg.content.startsWith(process.env.DISCORD_BOT_PREFIX)){
-      commandCenter.process(msg);
+  try{
+    console.log(`msg>> [[${msg.author}]]  ${msg.content}`);
+    if (msg.author == client.user) {
+      return; //ignore bot sent messages, to prevent loops
     }
+    if (msg.channel.type === "dm"){
+      commandCenter.processDirectMessage(msg);
+    } else if(msg.channel.type === "text"){
+      if (msg.content.startsWith(process.env.DISCORD_BOT_PREFIX)){
+        commandCenter.processServerMessage(msg);
+      }
+    }
+  } catch(error){
+    msg.send(`AN ERROR OCCURED WITH THE BOT. Tell a Programmer!`);
+    msg.send(error);
   }
 });
 
 
-
-client.login(process.env.DISCORD_BOT_TOKEN);
+console.log(token);
+client.login(token);
 //GGG Botspam channel ID 503362277844451338
+//GGG server ID 174717674155278336
