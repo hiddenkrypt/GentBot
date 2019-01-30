@@ -50,5 +50,3 @@ client.on('message', (msg) => {
 
 console.log(token);
 client.login(token);
-//GGG Botspam channel ID 503362277844451338
-//GGG server ID 174717674155278336

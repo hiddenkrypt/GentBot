@@ -8,7 +8,7 @@ module.exports = function(client){
     function checkList(e){
       return msg.content.includes(e) || msg.content.includes(e.toUpperCase());
     }
-    let pornTerms = ["nsfw", "lewd", "porn", "p0rn", "pron", "pr0n", "nfsw"];
+    let pornTerms = ["nsfw", "nfsw", "nsw", "nfw", "lewd", "porn", "p0rn", "pron", "pr0n", "nood", "nude", "n00d"];
     let addTerms = ["add","want","give","gimme","gib","desire","need","wish","crave","yearn" ,"provide","allow","access","grant","provide","bestow","get","recieve"];
     let removeTerms = ["remove","not","dont","don't","take","delete","erase","extract","exclude","snag","stop","no","revoke"];
     if(pornTerms.find(checkList)){
@@ -19,11 +19,11 @@ module.exports = function(client){
         revokeRole(msg.author, "NSFW");
       }
       else{
-        msg.channel.send("say 'give me porn' to get the NSFW role, or 'take my lewds' to remove the nsfw channel. Or somethign like that. The bot is a little loose with syntax for DMs. ");
+        msg.channel.send("say 'give me porn' to get the NSFW role, or 'take my lewds' to remove the nsfw channel. Or something like that. The bot is a little loose with syntax for DMs. ");
       }
     }
     else {
-      msg.channel.send("If you want the NSFW permission on the GGG, say something like 'I want NSFW'. If you don't wand this role anymore, message me with something like 'take my NSFW'. For all other GentBot Actions, use the GGG bot-spam channel.");
+      msg.channel.send("If you want the NSFW permission on the GGG, say something like 'I want NSFW'. If you don't want this role anymore, message me with something like 'take my NSFW'. For all other GentBot Actions, use the GGG bot-spam channel.");
     }
   };
   async function grantRole(author,roleName) {
