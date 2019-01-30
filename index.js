@@ -1,13 +1,8 @@
 require("dotenv").config();
 
-console.log("NODE START");
-console.log(process.env.DISCORD_BOT_PREFIX);
-var token = process.env.DISCORD_BOT_TOKEN;
-
 const DiscordApp = require("discord.js");
 const client = new DiscordApp.Client();
 const commandCenter = require("./src/CommandCenter.js")(client);
-
 
 client.on('ready', ()=>{
   console.log("Connected! Tag: "+client.user.tag);
@@ -29,11 +24,11 @@ client.on('messageReactionAdd', (reaction, user)=>{
 });
 
 client.on('message', (msg) => {
+  if (msg.author == client.user) {
+    return; //ignore bot sent messages, to prevent loops
+  }
   try{
     console.log(`msg>> [[${msg.author}]]  ${msg.content}`);
-    if (msg.author == client.user) {
-      return; //ignore bot sent messages, to prevent loops
-    }
     if (msg.channel.type === "dm"){
       commandCenter.processDirectMessage(msg);
     } else if(msg.channel.type === "text"){
@@ -48,5 +43,4 @@ client.on('message', (msg) => {
 });
 
 
-console.log(token);
-client.login(token);
+client.login(process.env.DISCORD_BOT_TOKEN);
